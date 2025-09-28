@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+h1,h2{
+    font-family: "DM Serif Display", sans-serif;
+}
+:not(h1,h2){
+    font-family: "Lato", sans-serif;
+}
+body{
+    scroll-behavior: smooth;
+}
+.glow-cyan {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+}

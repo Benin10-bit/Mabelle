@@ -69,7 +69,17 @@ function CartModal({ open, onClose }) {
   }
 
   useEffect(() => {
-    loadCartFromLocalStorage();
+    loadCartFromLocalStorage(); // carrega na montagem
+
+    function handleStorageChange() {
+      loadCartFromLocalStorage();
+    }
+
+    window.addEventListener("storageChange", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storageChange", handleStorageChange);
+    };
   }, []);
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
@@ -82,9 +92,7 @@ function CartModal({ open, onClose }) {
     const message = cartItems
       .map(
         (item, index) =>
-          `${index + 1}. ${item.title} - R$ ${(
-            item.price
-          )
+          `${index + 1}. ${item.title} - R$ ${item.price
             .toFixed(2)
             .replace(".", ",")}`
       )
@@ -221,7 +229,10 @@ function CartModal({ open, onClose }) {
               </div>
             </div>
 
-            <button onClick={sendToWhatsApp} className="w-full bg-gradient-to-r from-[#3CCAC8] to-[#2BAEAC] hover:from-[#2BAEAC] hover:to-[#3CCAC8] text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 hover:scale-[0.98] cursor-pointer hover:shadow-lg">
+            <button
+              onClick={sendToWhatsApp}
+              className="w-full bg-gradient-to-r from-[#3CCAC8] to-[#2BAEAC] hover:from-[#2BAEAC] hover:to-[#3CCAC8] text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 hover:scale-[0.98] cursor-pointer hover:shadow-lg"
+            >
               Finalizar Compra
             </button>
 

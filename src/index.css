@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
-h1,h2{
+h1,h2, a{
     font-family: "DM Serif Display", sans-serif;
 }
-:not(h1,h2){
+:not(h1,h2, a){
     font-family: "Lato", sans-serif;
 }
 body{

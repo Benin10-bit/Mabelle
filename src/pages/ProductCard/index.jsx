@@ -58,6 +58,8 @@ export default function ProductCard({
     const carrinho = JSON.parse(localStorage.getItem("carrinho") || "[]");
     carrinho.push(id);
     localStorage.setItem("carrinho", JSON.stringify(carrinho));
+
+    window.dispatchEvent(new Event("storageChange"));
   }
 
   return (

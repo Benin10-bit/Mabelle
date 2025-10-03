@@ -4,8 +4,7 @@ import CartModal from "../ModalCart";
 export default function Header() {
   const [show, setShow] = useState(true);
   const [lastScroll, setLastScroll] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,8 +17,8 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScroll]);
 
-  function openCart(){
-    setIsOpen(true)
+  function openCart() {
+    setIsOpen(true);
   }
 
   return (
@@ -32,49 +31,32 @@ export default function Header() {
                     show ? "translate-y-0" : "-translate-y-full"
                   }`}
       >
-        {/* Desktop layout */}{" "}
+        {/* Desktop layout */}
         <div className="hidden sm:flex w-full justify-between items-center">
-          {/* Logo à esquerda */} <h1 className="text-5xl glow-cyan">AnaLua</h1>
+          {/* Logo à esquerda */}
+          <a href="https://painelanalua.netlify.app/" className="text-5xl hover:opacity-60 glow-cyan transition-all duration-300 ease">AnaLua</a>
           {/* Ícone carrinho à direita */}
           <button onClick={openCart}>
             <i className="fa-solid fa-cart-shopping cursor-pointer hover:opacity-60 transition-all duration-300 ease glow-cyan text-3xl"></i>
           </button>
         </div>
+
         {/* Mobile layout */}
         <div className="flex sm:hidden w-full justify-between items-center">
-          {/* Botão hamburguer à esquerda */}
-          <button
-            className="text-3xl focus:outline-none"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <i className="fa-solid fa-bars hover:opacity-60 duration-300 ease-in-out cursor-pointer"></i>
-          </button>
+          {/* Diamante à esquerda */}
+          <a
+            href="https://painelanalua.netlify.app/"
+            className="fa-regular fa-gem text-2xl hover:opacity-60 transition-all duration-300 ease glow-cyan"
+          ></a>
 
           {/* Ícone carrinho à direita */}
           <button onClick={openCart}>
             <i className="fa-solid fa-cart-shopping cursor-pointer transition-all duration-300 ease hover:opacity-60 glow-cyan text-2xl"></i>
           </button>
         </div>
-        {/* Menu mobile com transição */}
-        <nav
-          className={`sm:hidden w-full overflow-hidden transition-[max-height] ${
-            menuOpen ? "max-h-60" : "max-h-0"
-          }`}
-        >
-          <ul className="flex flex-col gap-3 text-xl mt-2 bg-[#3CCAC8] rounded-lg py-2 items-center">
-            <li className="hover:opacity-60 transition-all duration-300 ease glow-cyan cursor-pointer">
-              Eu
-            </li>
-            <li className="hover:opacity-60 transition-all duration-300 ease glow-cyan cursor-pointer">
-              Amo
-            </li>
-            <li className="hover:opacity-60 transition-all duration-300 ease glow-cyan cursor-pointer">
-              Kalyne
-            </li>
-          </ul>
-        </nav>
       </header>
-      <CartModal open={isOpen} onClose={() => setIsOpen(false)}/>
+
+      <CartModal open={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
 }

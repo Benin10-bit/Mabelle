@@ -74,7 +74,7 @@ function App() {
         </div>
       ) : produtos.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 px-4">
-          <div className="text-6xl mb-4">📦</div>
+          <div className="text-8xl mb-4"><i class="fa-solid fa-box-open text-[#3fb9b7]"></i></div>
           <p className="text-gray-600 text-lg font-medium">Nenhum produto encontrado</p>
           <p className="text-gray-400 text-sm mt-2">Tente novamente mais tarde</p>
         </div>

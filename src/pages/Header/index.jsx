@@ -26,7 +26,7 @@ export default function Header() {
       <header
         className={`fixed flex flex-col sm:flex-row justify-between items-center
                   px-6 sm:px-28 py-4 w-screen text-white
-                  bg-[#3CCAC8] shadow-[0_4px_12px_rgba(0,0,0,0.1)] rounded-b-3xl
+                  bg-[#713F3E] shadow-[0_4px_12px_rgba(0,0,0,0.1)] 
                   transition-transform duration-300 z-40 ${
                     show ? "translate-y-0" : "-translate-y-full"
                   }`}
@@ -34,7 +34,7 @@ export default function Header() {
         {/* Desktop layout */}
         <div className="hidden sm:flex w-full justify-between items-center">
           {/* Logo à esquerda */}
-          <a href="https://painelanalua.netlify.app/" className="text-5xl hover:opacity-60 glow-cyan transition-all duration-300 ease">AnaLua</a>
+          <a href="https://painelanalua.netlify.app/" className="text-5xl font-medium hover:opacity-60 glow-cyan transition-all duration-300 ease">Mabelle</a>
           {/* Ícone carrinho à direita */}
           <button onClick={openCart}>
             <i className="fa-solid fa-cart-shopping cursor-pointer hover:opacity-60 transition-all duration-300 ease glow-cyan text-3xl"></i>

@@ -10,41 +10,28 @@ function CartModal({ open, onClose }) {
     localStorage.setItem("carrinho", JSON.stringify(updated.map((i) => i.id)));
   };
 
-  // Carrega produtos do localStorage e da API
   async function loadCartFromLocalStorage() {
     try {
       const raw = localStorage.getItem("carrinho");
       if (!raw) return;
 
       const savedIds = JSON.parse(raw);
-
       if (!Array.isArray(savedIds) || savedIds.length === 0) return;
 
       const responses = await Promise.all(
         savedIds.map(async (id) => {
           try {
-            const res = await fetch(
-              `https://apianalua.onrender.com/search/${id}`
-            );
+            const res = await fetch(`https://apianalua.onrender.com/search/${id}`);
             if (!res.ok) {
               console.error(`Erro na resposta do produto ${id}:`, res.status);
               return null;
             }
 
             const data = await res.json();
-
-            const product =
-              Array.isArray(data) && data.length > 0 ? data[0] : data;
-
-            if (
-              !product ||
-              typeof product !== "object" ||
-              product.error ||
-              !product.id
-            )
+            const product = Array.isArray(data) && data.length > 0 ? data[0] : data;
+            if (!product || typeof product !== "object" || product.error || !product.id)
               return null;
 
-            // Converte price de string para número
             const priceNumber = Number(product.price);
             const quantityNumber = Number(product.quantity);
 
@@ -69,14 +56,11 @@ function CartModal({ open, onClose }) {
   }
 
   useEffect(() => {
-    loadCartFromLocalStorage(); // carrega na montagem
-
+    loadCartFromLocalStorage();
     function handleStorageChange() {
       loadCartFromLocalStorage();
     }
-
     window.addEventListener("storageChange", handleStorageChange);
-
     return () => {
       window.removeEventListener("storageChange", handleStorageChange);
     };
@@ -88,31 +72,21 @@ function CartModal({ open, onClose }) {
   function sendToWhatsApp() {
     if (!cartItems || cartItems.length === 0) return;
 
-    // Formata a mensagem
     const message = cartItems
       .map(
         (item, index) =>
-          `${index + 1}. ${item.title} - R$ ${item.price
-            .toFixed(2)
-            .replace(".", ",")}`
+          `${index + 1}. ${item.title} - R$ ${item.price.toFixed(2).replace(".", ",")}`
       )
       .join("\n");
 
-    // Calcula o total
     const total = cartItems
       .reduce((sum, item) => sum + item.price, 0)
       .toFixed(2)
       .replace(".", ",");
 
     const fullMessage = `Olá! Gostaria de comprar os seguintes produtos:\n${message}\n\nTotal: R$ ${total}`;
-
-    // Codifica a mensagem para URL
     const encodedMessage = encodeURIComponent(fullMessage);
-
-    // Gera o link do WhatsApp
-    const waLink = `https://wa.me/558492180454?text=${encodedMessage}`; // substitua pelo seu número
-
-    // Abre o WhatsApp em nova aba
+    const waLink = `https://wa.me/558494833000?text=${encodedMessage}`;
     window.open(waLink, "_blank");
   }
 
@@ -120,7 +94,7 @@ function CartModal({ open, onClose }) {
     <>
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-black opacity-50 z-40 transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-[#5B3A39]/70 opacity-50 z-40 transition-opacity duration-300 ${
           open ? "block" : "hidden"
         }`}
         onClick={onClose}
@@ -128,12 +102,12 @@ function CartModal({ open, onClose }) {
 
       {/* Modal */}
       <div
-        className={`fixed inset-y-0 right-0 w-full max-w-md bg-[#F9FEFE] shadow-2xl z-50 transform transition-transform duration-300 ease-in-out overflow-hidden ${
-          open ? "transform translate-x-0" : "transform translate-x-full"
+        className={`fixed inset-y-0 right-0 w-full max-w-md bg-[#F7EAEA] shadow-2xl z-50 transform transition-transform duration-300 ease-in-out overflow-hidden ${
+          open ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#3CCAC8] to-[#2BAEAC] p-6 text-white relative">
+        <div className="bg-gradient-to-r from-[#9C5A59] to-[#B87776] p-6 text-white relative">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold">Seu Carrinho</h2>
@@ -160,13 +134,13 @@ function CartModal({ open, onClose }) {
             <div className="flex flex-col items-center justify-center h-64 px-6">
               <ShoppingBag
                 size={64}
-                className="text-[#4B6968] mb-4 opacity-50"
+                className="text-[#C28C8A] mb-4 opacity-60"
               />
-              <h3 className="text-[#0F3E3D] text-lg font-semibold mb-2">
+              <h3 className="text-[#713F3E] text-lg font-semibold mb-2">
                 Carrinho vazio
               </h3>
-              <p className="text-[#4B6968] text-center">
-                Adicione algumas joias especiais para começar
+              <p className="text-[#9C5A59] text-center">
+                Adicione algumas peças criativas para começar
               </p>
             </div>
           ) : (
@@ -174,25 +148,25 @@ function CartModal({ open, onClose }) {
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-2xl p-4 shadow-sm border border-[#E6F5F5] hover:shadow-md transition-all duration-300"
+                  className="bg-[#EBD2D2] rounded-2xl p-4 shadow-sm border border-[#E9D9D9] hover:shadow-md transition-all duration-300"
                 >
                   <div className="flex gap-4">
                     <div className="relative flex-shrink-0">
                       <img
                         src={item.imagem}
                         alt={item.title || "Produto"}
-                        className="w-20 h-20 rounded-xl object-cover bg-[#E6F5F5]"
+                        className="w-20 h-20 rounded-xl object-cover bg-[#E9D9D9]"
                       />
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-semibold text-[#0F3E3D] text-sm leading-tight">
+                        <h3 className="font-semibold text-[#713F3E] text-sm leading-tight">
                           {item.title || "Produto"}
                         </h3>
                         <button
                           onClick={() => removeItem(item.id)}
-                          className="text-[#4B6968] hover:text-red-500 p-1 ml-2 transition-colors duration-200"
+                          className="text-[#9C5A59] hover:text-[#D97A7A] p-1 ml-2 transition-colors duration-200"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -200,7 +174,7 @@ function CartModal({ open, onClose }) {
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <span className="text-lg font-bold text-[#0F3E3D]">
+                          <span className="text-lg font-bold text-[#5B3A39]">
                             R$ {(item.price ?? 0).toFixed(2).replace(".", ",")}
                           </span>
                         </div>
@@ -215,14 +189,14 @@ function CartModal({ open, onClose }) {
 
         {/* Footer */}
         {cartItems.length > 0 && (
-          <div className="border-t border-[#E6F5F5] bg-white p-6">
+          <div className="border-t border-[#E9D9D9] bg-[#F7EAEA] p-6">
             <div className="space-y-1 mb-4">
-              <div className="flex justify-between text-[#4B6968]">
+              <div className="flex justify-between text-[#713F3E]">
                 <span>Subtotal</span>
                 <span>R$ {subtotal.toFixed(2).replace(".", ",")}</span>
               </div>
-              <div className="border-t border-[#E6F5F5] pt-2">
-                <div className="flex justify-between text-[#0F3E3D] font-bold text-lg">
+              <div className="border-t border-[#EBD2D2] pt-2">
+                <div className="flex justify-between text-[#5B3A39] font-bold text-lg">
                   <span>Total</span>
                   <span>R$ {total.toFixed(2).replace(".", ",")}</span>
                 </div>
@@ -231,13 +205,13 @@ function CartModal({ open, onClose }) {
 
             <button
               onClick={sendToWhatsApp}
-              className="w-full bg-gradient-to-r from-[#3CCAC8] to-[#2BAEAC] hover:from-[#2BAEAC] hover:to-[#3CCAC8] text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 hover:scale-[0.98] cursor-pointer hover:shadow-lg"
+              className="w-full bg-gradient-to-r from-[#9C5A59] to-[#B87776] hover:from-[#B87776] hover:to-[#9C5A59] text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 hover:scale-[0.98] cursor-pointer hover:shadow-lg"
             >
               Finalizar Compra
             </button>
 
-            <p className="text-center text-xs text-[#4B6968] mt-3">
-              Compra finalizada no whatsapp • Entrega garantida
+            <p className="text-center text-xs text-[#9C5A59] mt-3">
+              Compra finalizada no WhatsApp • Entrega garantida
             </p>
           </div>
         )}

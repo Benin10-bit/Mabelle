@@ -1,14 +1,13 @@
 @import "tailwindcss";
 
-h1,h2, a{
-    font-family: "DM Serif Display", sans-serif;
+*{
+    font-family: "Montserrat", sans-serif;
 }
-:not(h1,h2, a){
-    font-family: "Lato", sans-serif;
-}
+
 body{
     scroll-behavior: smooth;
 }
-.glow-cyan {
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+
+::-webkit-scrollbar{
+    display: none;
 }

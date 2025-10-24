@@ -4,6 +4,7 @@ import ModalAviso from "./pages/ModalAviso";
 import ProductCard from "./pages/ProductCard";
 import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
+import MabelleFooter from "./pages/Footer";
 
 function App() {
   const [modalAberto, setModalAberto] = useState(false);
@@ -32,16 +33,13 @@ function App() {
   async function verificarAPI() {
     setLoading(true);
     try {
-      const res = await fetch(
-        "https://apianalua.onrender.com/catalog-products"
-      );
+      const res = await fetch("https://apianalua.onrender.com/catalog-products");
 
       if (!res.ok) {
         throw new Error(`Erro HTTP: ${res.status} ${res.statusText}`);
       }
 
       const dados = await res.json();
-
       setProdutos(dados);
     } catch (err) {
       mostrarAviso(`❌ Falha ao conectar com a API: ${err.message}`);
@@ -57,7 +55,7 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F5FFFF]">
+    <div className="min-h-screen bg-[#ffe6e5] text-[#5B3A39] font-['Poppins',sans-serif] transition-colors duration-300">
       <ModalAviso
         mensagem={mensagem}
         isOpen={modalAberto}
@@ -65,21 +63,31 @@ function App() {
       />
       <Header />
       <Hero />
-      
+
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 px-4">
-          <Loader2 className="w-12 h-12 text-[#3CCAC8] animate-spin mb-4" />
-          <p className="text-gray-600 text-lg font-medium">Carregando produtos...</p>
-          <p className="text-gray-400 text-sm mt-2">Aguarde enquanto buscamos os melhores produtos para você</p>
+          <Loader2 className="w-12 h-12 text-[#B87776] animate-spin mb-4" />
+          <p className="text-[#8C6E6D] text-lg font-medium">
+            Carregando produtos...
+          </p>
+          <p className="text-[#C49D9C] text-sm mt-2">
+            Aguarde enquanto buscamos as melhores criações para você 💕
+          </p>
         </div>
       ) : produtos.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 px-4">
-          <div className="text-8xl mb-4"><i class="fa-solid fa-box-open text-[#3fb9b7]"></i></div>
-          <p className="text-gray-600 text-lg font-medium">Nenhum produto encontrado</p>
-          <p className="text-gray-400 text-sm mt-2">Tente novamente mais tarde</p>
+          <div className="text-8xl mb-4">
+            <i className="fa-solid fa-box-open text-[#C85A5A]"></i>
+          </div>
+          <p className="text-[#8C6E6D] text-lg font-medium">
+            Nenhum produto encontrado
+          </p>
+          <p className="text-[#C49D9C] text-sm mt-2">
+            Tente novamente mais tarde
+          </p>
         </div>
       ) : (
-        <div className="px-4 sm:px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        <div className="px-6 sm:px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
           {produtos.map((produto) => (
             <ProductCard
               key={produto.id}
@@ -93,6 +101,7 @@ function App() {
           ))}
         </div>
       )}
+      <MabelleFooter />
     </div>
   );
 }

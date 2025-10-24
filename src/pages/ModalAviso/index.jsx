@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
 
 export default function ModalAviso({ isOpen, mensagem, progresso }) {
-  // "mounted" controla se o componente deve estar no DOM
   const [mounted, setMounted] = useState(isOpen);
-  // "visible" controla as classes CSS (translate/opacity)
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     let timer;
     if (isOpen) {
-      // montar imediatamente e, no próximo tick, ativar a classe de "visible"
       setMounted(true);
-      timer = setTimeout(() => setVisible(true), 10); // pequena espera para disparar a transição
+      timer = setTimeout(() => setVisible(true), 10);
     } else {
-      // iniciar animação de saída
       setVisible(false);
-      // desmontar depois da duração da transição (300ms aqui)
       timer = setTimeout(() => setMounted(false), 300);
     }
     return () => clearTimeout(timer);
@@ -24,22 +19,20 @@ export default function ModalAviso({ isOpen, mensagem, progresso }) {
   if (!mounted) return null;
 
   return (
-    // wrapper fixado no topo-direito; pointer-events-none evita bloquear cliques indesejados
-    <div className="fixed top-4 right-1 z-[500] text-[#3CCAC8] pointer-events-none">
+    <div className="fixed top-4 right-1 z-[500] pointer-events-none">
       <div
-        // inner permite pointer-events (para clicar dentro do modal)
-        className={`pointer-events-auto bg-white border border-slate-100 rounded-2xl shadow-md shadow-slate-400 p-4 max-w-sm min-w-[18vw] transform transition-all duration-300 ease-out
+        className={`pointer-events-auto bg-[#F7EAEA] border border-[#EBD2D2] rounded-2xl shadow-md shadow-[#9C5A59]/20 p-4 max-w-sm min-w-[18vw] transform transition-all duration-300 ease-out
           ${
             visible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
           }`}
       >
-        <h2 className="text-lg font-semibold mb-2">Aviso</h2>
-        <p className="mb-3 whitespace-pre-line">{mensagem}</p>
+        <h2 className="text-lg font-semibold mb-2 text-[#713F3E]">Aviso</h2>
+        <p className="mb-3 whitespace-pre-line text-[#5B3A39]">{mensagem}</p>
 
         {/* barra de progresso */}
-        <div className="w-full h-2 bg-gray-200 rounded overflow-hidden">
+        <div className="w-full h-2 bg-[#EBD2D2] rounded overflow-hidden">
           <div
-            className="h-full bg-[#3CCAC8] transition-all duration-150"
+            className="h-full bg-[#9C5A59] transition-all duration-150"
             style={{ width: `${progresso}%` }}
           />
         </div>
